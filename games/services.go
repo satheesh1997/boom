@@ -1,9 +1,13 @@
+/* This file contains the service definitions for the flames package. */
 package games
 
 import (
     "strings"
 )
 
+// removeDuplicateCharacters removes all duplicate characters from a string
+// str: the string to remove duplicate characters from
+// returns: the string with all duplicate characters removed
 func removeDuplicateCharacters(str string) string {
     result := ""
     for _, char := range str {
@@ -14,6 +18,10 @@ func removeDuplicateCharacters(str string) string {
     return result
 }
 
+// ComputeFlames computes the flames between two names
+// name1: the first name
+// name2: the second name
+// returns: the flames between the two names
 func (service *Service)ComputeFlames(name1 string, name2 string) string {
     // convert both names to lower case
     name1 = strings.ToLower(name1)
