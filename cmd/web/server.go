@@ -13,7 +13,14 @@ func setupRouter() *gin.Engine {
     // Controllers
     gamesController := games.NewController()
 
-    // Routes for /games
+    // Route for /health
+    router.GET("/health", func(c *gin.Context) {
+        c.JSON(200, gin.H{
+            "message": "OK",
+        })
+    })
+
+    // Route for /games/*
     gamesGroup := router.Group("/games")
     {
         gamesGroup.POST("/flames", gamesController.ComputeFlames)
