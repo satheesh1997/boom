@@ -10,8 +10,16 @@ import (
 func setupRouter() *gin.Engine {
     router := gin.Default()
 
+    // Load templates
+    router.LoadHTMLGlob("templates/*")
+
     // Controllers
     gamesController := games.NewController()
+
+    // Route for /
+    router.GET("/", func(c *gin.Context) {
+        c.HTML(200, "index.html", nil)
+    })
 
     // Route for /health
     router.GET("/health", func(c *gin.Context) {

@@ -4,7 +4,7 @@ FROM golang:alpine AS builder
 # Git is required for fetching the dependencies.
 RUN apk update && apk add --no-cache git
 
-WORKDIR $GOPATH/src/github.com/satheesh1997/boom
+WORKDIR /go/src/github.com/satheesh1997/boom
 
 COPY . .
 
@@ -21,15 +21,22 @@ RUN go mod verify
 # Build the binary.
 RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /go/bin/boom
 
-# Copy the binary to the production image from the builder stage.
+##############################
+# STEP 2 build a small image #
+##############################
+
 FROM alpine:latest
 
 RUN apk --no-cache add ca-certificates
 
-COPY --from=builder /go/bin/boom /go/bin/boom
+# Copy the binary to the production image from the builder stage.
+COPY --from=builder /go/bin/boom /boom
+
+# Copy the template files to the production image from the builder stage.
+COPY --from=builder /go/src/github.com/satheesh1997/boom/templates /templates
 
 # Environment variables required for our image to run.
 ENV GIN_MODE=release
 
 # Run the binary.
-ENTRYPOINT ["/go/bin/boom"]
+ENTRYPOINT ["/boom"]
