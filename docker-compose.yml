@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    environment:
+      GIN_MODE: debug
+    container_name: boom_api
+    image: boom.satheesh.dev
+    ports:
+      - "8000:8080"
