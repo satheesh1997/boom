@@ -18,10 +18,9 @@ var (
 
 // @Summary Compute Flames
 // @Description Compute Flames between two name using FLAMES game rule
-// @Tags games
 // @Accept  json
 // @Produce  json
-// @Param body body ComputeFlamesRequest true "Request Body"
+// @Param body ComputeFlamesRequest true "Request Body"
 // @Success 200 {object} ComputeFlamesResponse
 // @Failure 400 {object} ErrorResponse
 // @Router /games/flames [post]

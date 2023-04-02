@@ -5,6 +5,7 @@ import (
 
     "github.com/gin-gonic/gin"
     "github.com/satheesh1997/boom/games"
+    "github.com/satheesh1997/boom/me"
 )
 
 func setupRouter() *gin.Engine {
@@ -15,6 +16,7 @@ func setupRouter() *gin.Engine {
 
     // Controllers
     gamesController := games.NewController()
+    meController := me.NewController()
 
     // Route for /
     router.GET("/", func(c *gin.Context) {
@@ -28,11 +30,31 @@ func setupRouter() *gin.Engine {
         })
     })
 
+    // Route for /me
+    meGroup := router.Group("/me")
+    {
+        meGroup.GET("/", meController.GetInfo)
+        meGroup.GET("/skills", meController.GetSkills)
+        meGroup.GET("/services", meController.GetServices)
+        meGroup.GET("/projects", meController.GetProjects)
+        meGroup.GET("/education", meController.GetEducation)
+        meGroup.GET("/experience", meController.GetExperience)
+        meGroup.GET("/reviews", meController.GetReviews)
+    }
+
     // Route for /games/*
     gamesGroup := router.Group("/games")
     {
         gamesGroup.POST("/flames", gamesController.ComputeFlames)
     }
+
+    // Handle 404
+    router.NoRoute(func(c *gin.Context) {
+        c.JSON(404, gin.H{
+            "code": "API_NOT_FOUND",
+            "message": "Please reach out to the developer at mail@satheesh.dev for documentation.",
+        })
+    })
 
     return router
 }

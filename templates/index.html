@@ -1,6 +1,5 @@
 <html>
 <head>
-    <title>API - *.satheesh.dev</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
@@ -29,20 +28,42 @@
             return window.location.href + path;
         }
 
-        var data = {
-            "www": {
-                "info": generateURL("me/info"),
-                "skills": generateURL("me/skills"),
-                "services": generateURL("me/services"),
-                "projects": generateURL("me/projects"),
-                "education": generateURL("me/education"),
-                "experience": generateURL("me/experience"),
-                "testimonials": generateURL("me/testimonials"),
+        const urls = {
+            "me": {
+                "GET_info": generateURL("me"),
+                "GET_skills": generateURL("me/skills"),
+                "GET_services": generateURL("me/services"),
+                "GET_projects": generateURL("me/projects"),
+                "GET_education": generateURL("me/education"),
+                "GET_experience": generateURL("me/experience"),
+                "GET_reviews": generateURL("me/reviews"),
             },
-            "play": {
-                "flames": generateURL("games/flames"),
+            "games": {
+                "POST_flames": {
+                    "url": generateURL("games/flames"),
+                    "body": {
+                        "name": "name1",
+                        "partner_name": "name2"
+                    }
+                },
             }
         };
+
+        const data = {
+            "title": "Satheesh's API",
+            "description": "This is an API for Satheesh's portfolio website and other projects.",
+            "author": {
+                "name": "Satheesh Kumar",
+                "email": "mail@satheesh.dev",
+                "websites": {
+                    "portfolio": "https://www.satheesh.dev",
+                    "api": "https://boom.satheesh.dev",
+                    "assets": "https://assets.satheesh.dev",
+                    "playground": "https://play.satheesh.dev",
+                },
+            },
+            "api": urls
+        }
         document.getElementById("output").innerHTML = JSON.stringify(data, undefined, 4);
     </script>
 </body>
