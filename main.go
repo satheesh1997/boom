@@ -1,15 +1,22 @@
 package main
 
 import (
+    "context"
     "log"
     "os"
 
-    gateway "github.com/apex/gateway/v2"
+    "github.com/aws/aws-lambda-go/events"
+    "github.com/aws/aws-lambda-go/lambda"
+    ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
     "github.com/gin-contrib/cors"
     "github.com/gin-gonic/gin"
     "github.com/satheesh1997/boom/core"
     "github.com/satheesh1997/boom/games"
     "github.com/satheesh1997/boom/me"
+)
+
+var (
+    ginLambda *ginadapter.GinLambda
 )
 
 func inLambda() bool {
@@ -78,12 +85,23 @@ func setupRouter() *gin.Engine {
     return router
 }
 
+func lambdaHandler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+    return ginLambda.ProxyWithContext(ctx, request)
+}
+
+func init() {
+    if inLambda() || inRelease(){
+        ginLambda = ginadapter.New(setupRouter())
+    }
+}
+
 func main() {
     router := setupRouter()
 
     if inLambda() || inRelease() {
-       log.Fatal(gateway.ListenAndServe(":8080", router))
-    } else {
-        log.Fatal(router.Run(":8080"))
+        lambda.Start(LambdaHandler)
+        return
     }
+
+    log.Fatal(router.Run(":8080"))
 }
