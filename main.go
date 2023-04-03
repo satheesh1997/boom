@@ -4,7 +4,7 @@ import (
     "log"
     "os"
 
-    "github.com/apex/gateway"
+    gateway "github.com/apex/gateway/v2"
     "github.com/gin-contrib/cors"
     "github.com/gin-gonic/gin"
     "github.com/satheesh1997/boom/core"
@@ -79,11 +79,11 @@ func setupRouter() *gin.Engine {
 }
 
 func main() {
-   router := setupRouter()
+    router := setupRouter()
 
-   if inLambda() || inRelease() {
+    if inLambda() || inRelease() {
        log.Fatal(gateway.ListenAndServe(":8080", router))
-   } else {
+    } else {
         log.Fatal(router.Run(":8080"))
     }
 }
