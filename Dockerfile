@@ -22,10 +22,13 @@ RUN go mod verify
 RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /go/bin/boom
 
 ##############################
-# STEP 2 build a small image #
+#     Amazon Linux Image     #
 ##############################
 
 FROM public.ecr.aws/lambda/provided:al2
+
+# Apply all the security patches to the image.
+RUN yum update --security -y
 
 # Copy the binary to the production image from the builder stage.
 COPY --from=builder /go/bin/boom /boom
@@ -33,5 +36,4 @@ COPY --from=builder /go/bin/boom /boom
 # Environment variables required for our image to run.
 ENV GIN_MODE=release
 
-# Run the binary.
 ENTRYPOINT ["/boom"]
