@@ -7,6 +7,7 @@ import (
     "github.com/apex/gateway"
     "github.com/gin-contrib/cors"
     "github.com/gin-gonic/gin"
+    "github.com/satheesh1997/boom/core"
     "github.com/satheesh1997/boom/games"
     "github.com/satheesh1997/boom/me"
 )
@@ -34,21 +35,12 @@ func setupRouter() *gin.Engine {
         AllowHeaders: []string{"Content-Type,access-control-allow-origin, access-control-allow-headers"},
     }))
 
-    // Load templates
-    if inLambda() || inRelease() {
-        router.LoadHTMLGlob("/tmp/templates/*")
-    } else {
-        router.LoadHTMLGlob("templates/*")
-    }
-
     // Controllers
     gamesController := games.NewController()
     meController := me.NewController()
 
     // Route for /
-    router.GET("/", func(c *gin.Context) {
-        c.HTML(200, "index.html", nil)
-    })
+    router.GET("/", core.IndexHandler)
 
     // Route for /health
     router.GET("/health", func(c *gin.Context) {

@@ -30,9 +30,6 @@ FROM public.ecr.aws/lambda/provided:al2
 # Copy the binary to the production image from the builder stage.
 COPY --from=builder /go/bin/boom /boom
 
-# Copy the template files to the production image
-COPY ./templates /tmp/templates
-
 # Environment variables required for our image to run.
 ENV GIN_MODE=release
 
