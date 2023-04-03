@@ -5,6 +5,12 @@ import (
 )
 
 func IndexHandler(c *gin.Context) {
+    scheme := "http"
+
+    if c.Request.TLS != nil {
+        scheme = "https"
+    }
+
 	c.JSON(200, gin.H{
 		"title":       "Satheesh's API",
 		"description": "This is an API for Satheesh's portfolio website and other projects.",
@@ -20,17 +26,17 @@ func IndexHandler(c *gin.Context) {
 		},
 		"api": gin.H{
 			"me": gin.H{
-				"GET_info":       "http://localhost:8080/me",
-				"GET_skills":     "http://localhost:8080/me/skills",
-				"GET_services":   "http://localhost:8080/me/services",
-				"GET_projects":   "http://localhost:8080/me/projects",
-				"GET_education":  "http://localhost:8080/me/education",
-				"GET_experience": "http://localhost:8080/me/experience",
-				"GET_reviews":    "http://localhost:8080/me/reviews",
+				"GET_info":       scheme+"://"+c.Request.Host+"/me",
+				"GET_skills":     scheme+"://"+c.Request.Host+"/me/skills",
+				"GET_services":   scheme+"://"+c.Request.Host+"/me/services",
+				"GET_projects":   scheme+"://"+c.Request.Host+"/me/projects",
+				"GET_education":  scheme+"://"+c.Request.Host+"/me/education",
+				"GET_experience": scheme+"://"+c.Request.Host+"/me/experience",
+				"GET_reviews":    scheme+"://"+c.Request.Host+"/me/reviews",
 			},
 			"games": gin.H{
 				"POST_flames": gin.H{
-					"url": "http://localhost:8080/games/flames",
+					"url": scheme+"://"+c.Request.Host+"/games/flames",
 					"body": gin.H{
 						"name":         "name1",
 						"partner_name": "name2",
