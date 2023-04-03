@@ -22,18 +22,15 @@ RUN go mod verify
 RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /go/bin/boom
 
 ##############################
-#     Amazon Linux Image     #
+#     Alpine 3.16 Image      #
 ##############################
 
-FROM public.ecr.aws/lambda/provided:al2
-
-# Apply all the security patches to the image.
-RUN yum update --security -y
+FROM alpine:3.16
 
 # Copy the binary to the production image from the builder stage.
-COPY --from=builder /go/bin/boom /boom
+COPY --from=builder /go/bin/boom /main
 
 # Environment variables required for our image to run.
 ENV GIN_MODE=release
 
-ENTRYPOINT ["/boom"]
+ENTRYPOINT ["/main"]
