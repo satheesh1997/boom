@@ -99,7 +99,7 @@ func main() {
     router := setupRouter()
 
     if inLambda() || inRelease() {
-        lambda.Start(LambdaHandler)
+        lambda.Start(lambdaHandler)
         return
     }
 
