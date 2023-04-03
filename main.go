@@ -2,12 +2,28 @@ package main
 
 import (
     "log"
+    "os"
 
+    "github.com/apex/gateway"
     "github.com/gin-contrib/cors"
     "github.com/gin-gonic/gin"
     "github.com/satheesh1997/boom/games"
     "github.com/satheesh1997/boom/me"
 )
+
+func inLambda() bool {
+   if lambdaTaskRoot := os.Getenv("LAMBDA_TASK_ROOT"); lambdaTaskRoot != "" {
+      return true
+   }
+   return false
+}
+
+func inRelease() bool {
+    if release := os.Getenv("GIN_MODE"); release == "release" {
+        return true
+    }
+    return false
+}
 
 func setupRouter() *gin.Engine {
     router := gin.Default()
@@ -19,7 +35,11 @@ func setupRouter() *gin.Engine {
     }))
 
     // Load templates
-    router.LoadHTMLGlob("templates/*")
+    if inLambda() || inRelease() {
+        router.LoadHTMLGlob("/tmp/templates/*")
+    } else {
+        router.LoadHTMLGlob("templates/*")
+    }
 
     // Controllers
     gamesController := games.NewController()
@@ -67,6 +87,11 @@ func setupRouter() *gin.Engine {
 }
 
 func main() {
-    router := setupRouter()
-    log.Fatal(router.Run(":8080"))
+   router := setupRouter()
+
+   if inLambda() || inRelease() {
+       log.Fatal(gateway.ListenAndServe(":8080", router))
+   } else {
+        log.Fatal(router.Run(":8080"))
+    }
 }

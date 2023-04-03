@@ -25,15 +25,13 @@ RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /go/bin/boom
 # STEP 2 build a small image #
 ##############################
 
-FROM alpine:latest
-
-RUN apk --no-cache add ca-certificates
+FROM public.ecr.aws/lambda/provided:al2
 
 # Copy the binary to the production image from the builder stage.
 COPY --from=builder /go/bin/boom /boom
 
-# Copy the template files to the production image from the builder stage.
-COPY --from=builder /go/src/github.com/satheesh1997/boom/templates /templates
+# Copy the template files to the production image
+COPY ./templates /tmp/templates
 
 # Environment variables required for our image to run.
 ENV GIN_MODE=release
