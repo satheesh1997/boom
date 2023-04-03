@@ -3,6 +3,7 @@ package main
 import (
     "log"
 
+    "github.com/gin-contrib/cors"
     "github.com/gin-gonic/gin"
     "github.com/satheesh1997/boom/games"
     "github.com/satheesh1997/boom/me"
@@ -10,6 +11,12 @@ import (
 
 func setupRouter() *gin.Engine {
     router := gin.Default()
+
+    router.Use(cors.New(cors.Config{
+        AllowOrigins: []string{"*.satheesh.dev", "http://localhost:3000"},
+        AllowMethods: []string{"POST", "PUT", "PATCH", "DELETE"},
+        AllowHeaders: []string{"Content-Type,access-control-allow-origin, access-control-allow-headers"},
+    }))
 
     // Load templates
     router.LoadHTMLGlob("templates/*")
