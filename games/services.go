@@ -22,42 +22,44 @@ func removeDuplicateCharacters(str string) string {
 // name1: the first name
 // name2: the second name
 // returns: the flames between the two names
-func (service *Service)ComputeFlames(name1 string, name2 string) string {
-    // convert both names to lower case
-    name1 = strings.ToLower(name1)
-    name2 = strings.ToLower(name2)
+func (service *Service) ComputeFlames(name1 string, name2 string) string {
+	// Remove all duplicate characters from the names
+	name1 = removeDuplicateCharacters(name1)
+	name2 = removeDuplicateCharacters(name2)
 
-    // remove all spaces
-    name1 = strings.Replace(name1, " ", "", -1)
-    name2 = strings.Replace(name2, " ", "", -1)
+	// Convert the names to lowercase
+	name1 = strings.ToLower(name1)
+	name2 = strings.ToLower(name2)
 
-    // remove all duplicate characters
-    name1 = removeDuplicateCharacters(name1)
-    name2 = removeDuplicateCharacters(name2)
+	// Count the number of characters in each name
+	count1 := len(name1)
+	count2 := len(name2)
 
-    // count the number of characters in each name
-    count1 := len(name1)
-    count2 := len(name2)
+	// Count the number of characters in common between the two names
+	common := 0
+	for _, char := range name1 {
+		if strings.Contains(name2, string(char)) {
+			common++
+		}
+	}
 
-    // count the number of characters in both names
-    count := count1 + count2
+	// Compute the flames
+	flames := (count1 + count2) - (2 * common)
+	flames %= 6
 
-    // count the number of characters in both names that are common
-    for _, char := range name1 {
-        if strings.Contains(name2, string(char)) {
-            count -= 2
-        }
-    }
-
-    // compute the flames
-    flames := []string{"F", "L", "A", "M", "E", "S"}
-    for len(flames) > 1 {
-        index := count % len(flames)
-        if index == 0 {
-            index = len(flames)
-        }
-        flames = append(flames[:index-1], flames[index:]...)
-    }
-
-    return flames[0]
+	switch flames {
+	case 0:
+		return "F"
+	case 1:
+		return "L"
+	case 2:
+		return "A"
+	case 3:
+		return "M"
+	case 4:
+		return "E"
+	case 5:
+		return "S"
+	}
+	return ""
 }
