@@ -1,0 +1,24 @@
+name: Run tests on PR
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  games:
+    name: Test github.com/satheesh1997/boom/games
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.17.x'
+
+      - name: Install dependencies
+        run: |
+          go get .
+
+      - name: Test
+        run: go test -v github.com/satheesh1997/boom/games
