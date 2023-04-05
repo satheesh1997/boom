@@ -10,6 +10,7 @@ func CreateInfo() *Info {
 		LastName:       "Kumar",
 		FullName:       "Satheesh Kumar",
 		Bio:            "Engineer @HackerEarth ||  Open Source Contributor  || Designer  ||  Developer || Mentor",
+		About:          "I'm Satheesh Kumar. I’m currently working as a Software Engineer at **HackerEarth** specialized in **Python** and **JavaScript** applications.\n\nI'm a developer, geek and curious human besides being an OpenSource enthusiast. I have experience of delivering solutions for interesting problems from startup space.",
 		DateOfBirth:    "10-10-1997",
 		Address:        "Bengaluru, Karnataka, India",
 		ImageURL:       "https://assets.satheesh.dev/images/about-image.jpg",

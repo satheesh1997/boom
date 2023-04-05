@@ -37,7 +37,7 @@ func setupRouter() *gin.Engine {
 	router := gin.Default()
 
 	router.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"https://www.satheesh.dev", "https://play.satheesh.dev", "http://localhost:3002"},
+		AllowOrigins: []string{"https://www.satheesh.dev", "https://play.satheesh.dev", "http://localhost:3000"},
 		AllowMethods: []string{"POST", "PUT", "PATCH", "DELETE"},
 		AllowHeaders: []string{"Content-Type,access-control-allow-origin, access-control-allow-headers"},
 	}))

@@ -48,6 +48,7 @@ type (
 		LastName       string   `json:"lastName"`
 		FullName       string   `json:"fullName"`
 		Bio            string   `json:"bio"`
+		About          string   `json:"about"`
 		DateOfBirth    string   `json:"dob"`
 		Address        string   `json:"address"`
 		ImageURL       string   `json:"image"`
