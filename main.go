@@ -10,9 +10,9 @@ import (
 	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/satheesh1997/boom/core"
-	"github.com/satheesh1997/boom/games"
-	"github.com/satheesh1997/boom/me"
+	"pkg.satheesh.dev/boom/core"
+	"pkg.satheesh.dev/boom/games"
+	"pkg.satheesh.dev/boom/me"
 )
 
 var (

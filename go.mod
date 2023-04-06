@@ -1,4 +1,4 @@
-module github.com/satheesh1997/boom
+module pkg.satheesh.dev/boom
 
 go 1.18
 

@@ -6,7 +6,7 @@ on:
 
 jobs:
   games:
-    name: Test github.com/satheesh1997/boom/games
+    name: Test Games
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -21,4 +21,4 @@ jobs:
           go get .
 
       - name: Test
-        run: go test -v github.com/satheesh1997/boom/games
+        run: go test -v pkg.satheesh.dev/boom/games

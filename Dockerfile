@@ -4,7 +4,7 @@ FROM golang:alpine AS builder
 # Git is required for fetching the dependencies.
 RUN apk update && apk add --no-cache git
 
-WORKDIR /go/src/github.com/satheesh1997/boom
+WORKDIR /go/src/pkg.satheesh.dev/boom
 
 COPY . .
 
